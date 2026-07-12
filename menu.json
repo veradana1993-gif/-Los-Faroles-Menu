@@ -1,1 +1,9 @@
-
+{
+  "menuDelDia": {
+    "precio": "14 €",
+    "primerPlato": "Gazpacho",
+    "segundoPlato": "Paella",
+    "bebida": "Bebida incluida",
+    "postre": "Postre casero"
+  }
+}
