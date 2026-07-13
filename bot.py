@@ -28,3 +28,18 @@ menu = {
     "bebida": "",
     "precio": ""
 }
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    keyboard = [
+        [InlineKeyboardButton("🍲 Первые блюда", callback_data="primer")],
+        [InlineKeyboardButton("🍛 Вторые блюда", callback_data="segundo")],
+        [InlineKeyboardButton("🍰 Десерты", callback_data="postre")],
+        [InlineKeyboardButton("🥤 Напитки", callback_data="bebida")],
+        [InlineKeyboardButton("💶 Цена", callback_data="precio")],
+        [InlineKeyboardButton("✅ Опубликовать", callback_data="publicar")],
+    ]
+
+    await update.message.reply_text(
+        "Выберите раздел меню:",
+        reply_markup=InlineKeyboardMarkup(keyboard),
+    )
