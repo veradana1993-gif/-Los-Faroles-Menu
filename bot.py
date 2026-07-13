@@ -25,8 +25,7 @@ menu = {
     "primerPlato": "",
     "segundoPlato": "",
     "postre": "",
-    "bebida": "",
-    "precio": ""
+
 }
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
@@ -34,8 +33,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🍲 Первые блюда", callback_data="primer")],
         [InlineKeyboardButton("🍛 Вторые блюда", callback_data="segundo")],
         [InlineKeyboardButton("🍰 Десерты", callback_data="postre")],
-        [InlineKeyboardButton("🥤 Напитки", callback_data="bebida")],
-        [InlineKeyboardButton("💶 Цена", callback_data="precio")],
         [InlineKeyboardButton("✅ Опубликовать", callback_data="publicar")],
     ]
 
@@ -47,7 +44,13 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     query = update.callback_query
     await query.answer()
+    if query.data.startswith("p_"):
+        menu["primerPlato"] = query.data.replace("p_", "")
 
+        await query.edit_message_text(
+            f"✅ Первое блюдо:\n\n{menu['primerPlato']}"
+        )
+        return
     if query.data == "primer":
 
         keyboard = [
@@ -87,8 +90,6 @@ menu = {
     "primerPlato": "",
     "segundoPlato": "",
     "postre": "",
-    "bebida": "",
-    "precio": ""
 }
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
@@ -96,8 +97,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🍲 Первые блюда", callback_data="primer")],
         [InlineKeyboardButton("🍛 Вторые блюда", callback_data="segundo")],
         [InlineKeyboardButton("🍰 Десерты", callback_data="postre")],
-        [InlineKeyboardButton("🥤 Напитки", callback_data="bebida")],
-        [InlineKeyboardButton("💶 Цена", callback_data="precio")],
         [InlineKeyboardButton("✅ Опубликовать", callback_data="publicar")],
     ]
 
@@ -135,8 +134,6 @@ async def save_menu():
     data["menuDelDia"]["primerPlato"] = menu["primerPlato"]
     data["menuDelDia"]["segundoPlato"] = menu["segundoPlato"]
     data["menuDelDia"]["postre"] = menu["postre"]
-    data["menuDelDia"]["bebida"] = menu["bebida"]
-    data["menuDelDia"]["precio"] = menu["precio"]
 
     repo.update_file(
         FILE_PATH,
