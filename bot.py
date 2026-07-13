@@ -134,6 +134,18 @@ async def save_menu():
     data["menuDelDia"]["primerPlato"] = menu["primerPlato"]
     data["menuDelDia"]["segundoPlato"] = menu["segundoPlato"]
     data["menuDelDia"]["postre"] = menu["postre"]
+    from datetime import datetime
+
+dia = datetime.now().weekday()
+
+if dia == 5:
+    precio = "CERRADO"
+elif dia == 6:
+    precio = "17 €"
+else:
+    precio = "14 €"
+
+data["menuDelDia"]["precio"] = precio
 
     repo.update_file(
         FILE_PATH,
