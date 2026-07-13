@@ -43,3 +43,20 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Выберите раздел меню:",
         reply_markup=InlineKeyboardMarkup(keyboard),
     )
+async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    query = update.callback_query
+    await query.answer()
+
+    if query.data == "primer":
+
+        keyboard = [
+            [InlineKeyboardButton("Gazpacho", callback_data="p_Gazpacho")],
+            [InlineKeyboardButton("Sopa de marisco", callback_data="p_Sopa de marisco")],
+            [InlineKeyboardButton("Crema de verduras", callback_data="p_Crema de verduras")],
+        ]
+
+        await query.edit_message_text(
+            "Выберите первое блюдо:",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+        )
