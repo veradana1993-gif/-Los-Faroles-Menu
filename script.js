@@ -1,4 +1,20 @@
-fetch("menu.json")
+// ===== Today's date =====
+
+const today = new Date();
+
+const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+};
+
+const dateElement = document.getElementById("today-date");
+
+if(dateElement){
+    dateElement.textContent =
+        today.toLocaleDateString("es-ES", options);
+}fetch("menu.json")
   .then(response => response.json())
   .then(data => {
     const precio = document.getElementById("precio");
