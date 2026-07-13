@@ -144,3 +144,90 @@ color:#aaa;
 .contact a:hover {
     text-decoration: underline;
 }
+/* ---------- LOGO ---------- */
+
+.logo-box{
+    text-align:center;
+    margin:35px auto;
+}
+
+.logo-line{
+    width:180px;
+    height:2px;
+    background:#d4af37;
+    margin:18px auto;
+}
+
+.logo-title{
+    color:#d4af37;
+    font-size:64px;
+    letter-spacing:8px;
+    line-height:0.9;
+    margin:0;
+    font-family:Georgia, serif;
+}
+
+.logo-subtitle{
+    color:#ffffff;
+    font-size:18px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+}
+
+/* ---------- LANGUAGES ---------- */
+
+.languages{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin:25px 0;
+}
+
+.languages button{
+    background:#1d1d1d;
+    color:white;
+    border:1px solid #d4af37;
+    border-radius:30px;
+    padding:10px 16px;
+    cursor:pointer;
+    font-size:18px;
+    transition:.3s;
+}
+
+.languages button:hover{
+    background:#d4af37;
+    color:black;
+}
+
+/* ---------- DATE ---------- */
+
+#today-title{
+    text-align:center;
+    margin-top:40px;
+}
+
+#today-date{
+    text-align:center;
+    color:#d4af37;
+    font-size:20px;
+    margin-bottom:30px;
+    font-style:italic;
+}
+
+/* ---------- MENU ---------- */
+
+.menu-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+    margin:40px auto;
+    max-width:1200px;
+}
+
+.card h3{
+    text-align:center;
+    color:#d4af37;
+    border-bottom:1px solid #d4af37;
+    padding-bottom:10px;
+}
