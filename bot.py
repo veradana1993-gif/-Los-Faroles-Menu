@@ -51,8 +51,26 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"✅ Первое блюдо:\n\n{menu['primerPlato']}"
         )
         return
-    if query.data == "primer":
+        if query.data.startswith("s_"):
+    menu["segundoPlato"] = query.data.replace("s_", "")
 
+    await query.edit_message_text(
+        f"✅ Второе блюдо:\n\n{menu['segundoPlato']}"
+    )
+    return
+    if query.data == "primer":
+elif query.data == "segundo":
+
+    keyboard = [
+        [InlineKeyboardButton("Paella", callback_data="s_Paella")],
+        [InlineKeyboardButton("Pollo al horno", callback_data="s_Pollo al horno")],
+        [InlineKeyboardButton("Costillas en salsa", callback_data="s_Costillas en salsa")],
+    ]
+
+    await query.edit_message_text(
+        "Выберите второе блюдо:",
+        reply_markup=InlineKeyboardMarkup(keyboard),
+    )
         keyboard = [
             [InlineKeyboardButton("Gazpacho", callback_data="p_Gazpacho")],
             [InlineKeyboardButton("Sopa de marisco", callback_data="p_Sopa de marisco")],
