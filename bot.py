@@ -31,6 +31,11 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+app_web = Flask(__name__)
+
+@app_web.route("/")
+def home():
+    return "Los Faroles Bot OK"
 # --------------------------------------------------
 # Переменные окружения Render
 # --------------------------------------------------
