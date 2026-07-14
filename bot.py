@@ -43,21 +43,60 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=InlineKeyboardMarkup(keyboard),
     )
 async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def text_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
+    user_id = update.effective_user.id
+
+    if user_id not in estado:
+        return
+
+    texto = update.message.text.strip()
+
+    platos = [p.strip() for p in texto.split("\n") if p.strip()]
+
+    if estado[user_id] == "primer":
+        menu["primerPlato"] = platos
+        await update.message.reply_text("✅ Первые блюда сохранены.")
+
+    elif estado[user_id] == "segundo":
+        menu["segundoPlato"] = platos
+        await update.message.reply_text("✅ Вторые блюда сохранены.")
+
+    elif estado[user_id] == "postre":
+        menu["postre"] = platos
+        await update.message.reply_text("✅ Десерты сохранены.")
+
+    del estado[user_id]
     query = update.callback_query
     await query.answer()
     if query.data.startswith("p_"):
         menu["primerPlato"] = query.data.replace("p_", "")
-
+if query.data == "primer":
+    estado[query.from_user.id] = "primer"
+    await query.edit_message_text(
+        "🍲 Отправьте первые блюда.\n\nКаждое блюдо — с новой строки."
+    )
+    return
         await query.edit_message_text(
             f"✅ Первое блюдо:\n\n{menu['primerPlato']}"
         )
         return
         if query.data.startswith("s_"):
     menu["segundoPlato"] = query.data.replace("s_", "")
-
+elif query.data == "segundo":
+    estado[query.from_user.id] = "segundo"
+    await query.edit_message_text(
+        "🍛 Отправьте вторые блюда.\n\nКаждое блюдо — с новой строки."
+    )
+    return
     await query.edit_message_text(
         f"✅ Второе блюдо:\n\n{menu['segundoPlato']}"
+    )
+    return
+elif query.data == "postre":
+    estado[query.from_user.id] = "postre"
+    await query.edit_message_text(
+        "🍰 Отправьте десерты.\n\nКаждый десерт — с новой строки."
     )
     return
     if query.data == "primer":
