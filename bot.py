@@ -259,20 +259,8 @@ async def main():
     )
 
     app.add_handler(
-        CommandHandler(
-            "menu",
-            menu_command
-        )
-    )
-
-
-    # Botones
-
-    app.add_handler(
-        CallbackQueryHandler(
-            button_handler
-        )
-    )
+    CallbackQueryHandler(buttons)
+)
 
 
     await app.initialize()
