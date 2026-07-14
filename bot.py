@@ -310,8 +310,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def main():
 
     app = Application.builder().token(
-    "8956988765:AAFtDe1IBjmTpfApW1JaljgSa2AdjmRLDVc"
-).build()
+        "8956988765:AAFtDe1IBjmTpfApW1JaljgSa2AdjmRLDVc"
+    ).build()
 
 
     # Comandos
@@ -322,7 +322,6 @@ async def main():
             start
         )
     )
-
 
     app.add_handler(
         CommandHandler(
@@ -341,18 +340,15 @@ async def main():
     )
 
 
+    await app.initialize()
+    await app.start()
+    await app.updater.start_polling()
+
     print(
         "🤖 Bot Los Faroles iniciado..."
     )
 
-
-    await app.initialize()
-await app.start()
-await app.updater.start_polling()
-
-print("🤖 Bot Los Faroles iniciado...")
-
-await asyncio.Event().wait()
+    await asyncio.Event().wait()
 
 
 
