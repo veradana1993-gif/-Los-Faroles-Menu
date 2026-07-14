@@ -229,11 +229,11 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if query.data == "show_menu":
 
-        await show_menu(query)
+    await show_menu(query)
 
-        return
+    return
 
-    if query.data == "edit_menu":
+if query.data == "edit_menu":
 
     await query.edit_message_text(
         "🚧 Edición del menú en desarrollo."
