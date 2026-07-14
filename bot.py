@@ -64,14 +64,19 @@ def load_menu():
     except FileNotFoundError:
 
         menu = {
-            "menuDelDia": {
-                "precio": "14 €",
-                "primerPlato": "Gazpacho",
-                "segundoPlato": "Paella",
-                "bebida": "Bebida incluida",
-                "postre": "Postre casero"
-            }
-        }
+    "menuDelDia": {
+        "primero": [
+            "Gazpacho"
+        ],
+        "segundo": [
+            "Paella"
+        ],
+        "postre": [
+            "Postre casero"
+        ],
+        "bebida": "Bebida incluida"
+    }
+}
 
         save_local_menu(menu)
 
@@ -176,13 +181,27 @@ async def show_menu(query):
 
     data = menu["menuDelDia"]
 
+    primero = "\n".join(
+        [f"• {x}" for x in data["primero"]]
+    )
+
+    segundo = "\n".join(
+        [f"• {x}" for x in data["segundo"]]
+    )
+
+    postre = "\n".join(
+        [f"• {x}" for x in data["postre"]]
+    )
+
     text = (
         "🍽 MENÚ DEL DÍA\n\n"
-        f"💶 Precio: {data['precio']}\n\n"
-        f"🥗 Primero:\n{data['primerPlato']}\n\n"
-        f"🍖 Segundo:\n{data['segundoPlato']}\n\n"
-        f"🥤 {data['bebida']}\n\n"
-        f"🍰 Postre:\n{data['postre']}"
+        f"🥗 PRIMERO:\n{primero}\n\n"
+        f"🍖 SEGUNDO:\n{segundo}\n\n"
+        f"🍰 POSTRE:\n{postre}\n\n"
+        "🥤 Bebida incluida\n\n"
+        "💶 Precio:\n"
+        "Lunes a viernes 14€\n"
+        "Domingos y festivos 17€"
     )
 
     await query.edit_message_text(
