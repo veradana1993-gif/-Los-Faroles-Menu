@@ -1,9 +1,4 @@
-from telegram import (
-    Update,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-)
-
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -14,6 +9,7 @@ from telegram.ext import (
 )
 
 from github import Github
+from datetime import datetime
 import json
 import os
 
@@ -24,9 +20,10 @@ REPO_NAME = "veradana1993-gif/-Los-Faroles-Menu"
 FILE_PATH = "menu.json"
 
 menu = {
-    menu["primerPlato"] = []
-menu["segundoPlato"] = []
-menu["postre"] = []
+    "primerPlato": [],
+    "segundoPlato": [],
+    "postre": [],
+}
 
 estado = {}
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -39,20 +36,52 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
 
     await update.message.reply_text(
-        "Выберите раздел меню:",
+        "Выберите действие:",
         reply_markup=InlineKeyboardMarkup(keyboard),
-    )
-async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
-async def text_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    )async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    query = update.callback_query
+    await query.answer()
+
+    if query.data == "primer":
+        estado[query.from_user.id] = "primer"
+        await query.edit_message_text(
+            "🍲 Отправьте первые блюда.\n\nКаждое блюдо с новой строки."
+        )
+        return
+
+    if query.data == "segundo":
+        estado[query.from_user.id] = "segundo"
+        await query.edit_message_text(
+            "🍛 Отправьте вторые блюда.\n\nКаждое блюдо с новой строки."
+        )
+        return
+
+    if query.data == "postre":
+        estado[query.from_user.id] = "postre"
+        await query.edit_message_text(
+            "🍰 Отправьте десерты.\n\nКаждый десерт с новой строки."
+        )
+        return
+
+    if query.data == "publicar":
+        await save_menu()
+        await query.edit_message_text("✅ Меню опубликовано!")
+    async def text_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     user_id = update.effective_user.id
 
     if user_id not in estado:
+        await update.message.reply_text(
+            "Нажмите /start и выберите раздел меню."
+        )
         return
 
-    texto = update.message.text.strip()
-
-    platos = [p.strip() for p in texto.split("\n") if p.strip()]
+    platos = [
+        linea.strip()
+        for linea in update.message.text.split("\n")
+        if linea.strip()
+    ]
 
     if estado[user_id] == "primer":
         menu["primerPlato"] = platos
@@ -67,148 +96,48 @@ async def text_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("✅ Десерты сохранены.")
 
     del estado[user_id]
-    query = update.callback_query
-    await query.answer()
-    if query.data.startswith("p_"):
-        menu["primerPlato"] = query.data.replace("p_", "")
-if query.data == "primer":
-    estado[query.from_user.id] = "primer"
-    await query.edit_message_text(
-        "🍲 Отправьте первые блюда.\n\nКаждое блюдо — с новой строки."
-    )
-    return
-        await query.edit_message_text(
-            f"✅ Первое блюдо:\n\n{menu['primerPlato']}"
-        )
-        return
-        if query.data.startswith("s_"):
-    menu["segundoPlato"] = query.data.replace("s_", "")
-elif query.data == "segundo":
-    estado[query.from_user.id] = "segundo"
-    await query.edit_message_text(
-        "🍛 Отправьте вторые блюда.\n\nКаждое блюдо — с новой строки."
-    )
-    return
-    await query.edit_message_text(
-        f"✅ Второе блюдо:\n\n{menu['segundoPlato']}"
-    )
-    return
-elif query.data == "postre":
-    estado[query.from_user.id] = "postre"
-    await query.edit_message_text(
-        "🍰 Отправьте десерты.\n\nКаждый десерт — с новой строки."
-    )
-    return
-    if query.data == "primer":
-elif query.data == "segundo":
-
-    keyboard = [
-        [InlineKeyboardButton("Paella", callback_data="s_Paella")],
-        [InlineKeyboardButton("Pollo al horno", callback_data="s_Pollo al horno")],
-        [InlineKeyboardButton("Costillas en salsa", callback_data="s_Costillas en salsa")],
-    ]
-
-    await query.edit_message_text(
-        "Выберите второе блюдо:",
-        reply_markup=InlineKeyboardMarkup(keyboard),
-    )
-        keyboard = [
-            [InlineKeyboardButton("Gazpacho", callback_data="p_Gazpacho")],
-            [InlineKeyboardButton("Sopa de marisco", callback_data="p_Sopa de marisco")],
-            [InlineKeyboardButton("Crema de verduras", callback_data="p_Crema de verduras")],
-        ]
-
-        await query.edit_message_text(
-            "Выберите первое блюдо:",
-            reply_markup=InlineKeyboardMarkup(keyboard),
-        )
-        from telegram import (
-    Update,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-)
-
-from telegram.ext import (
-    Application,
-    CommandHandler,
-    CallbackQueryHandler,
-    ContextTypes,
-)
-
-from github import Github
-import json
-import os
-
-TOKEN = os.getenv("BOT_TOKEN")
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-
-REPO_NAME = "veradana1993-gif/-Los-Faroles-Menu"
-FILE_PATH = "menu.json"
-
-menu = {
-    "primerPlato": "",
-    "segundoPlato": "",
-    "postre": "",
-}
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-    keyboard = [
-        [InlineKeyboardButton("🍲 Первые блюда", callback_data="primer")],
-        [InlineKeyboardButton("🍛 Вторые блюда", callback_data="segundo")],
-        [InlineKeyboardButton("🍰 Десерты", callback_data="postre")],
-        [InlineKeyboardButton("✅ Опубликовать", callback_data="publicar")],
-    ]
-
-    await update.message.reply_text(
-        "Выберите раздел меню:",
-        reply_markup=InlineKeyboardMarkup(keyboard),
-    )
-async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-    query = update.callback_query
-    await query.answer()
-
-    if query.data == "primer":
-
-        keyboard = [
-            [InlineKeyboardButton("Gazpacho", callback_data="p_Gazpacho")],
-            [InlineKeyboardButton("Sopa de marisco", callback_data="p_Sopa de marisco")],
-            [InlineKeyboardButton("Crema de verduras", callback_data="p_Crema de verduras")],
-        ]
-
-        await query.edit_message_text(
-            "Выберите первое блюдо:",
-            reply_markup=InlineKeyboardMarkup(keyboard),
-        )
-
-async def save_menu():
+    async def save_menu():
 
     g = Github(GITHUB_TOKEN)
     repo = g.get_repo(REPO_NAME)
 
     file = repo.get_contents(FILE_PATH)
 
-    data = json.loads(file.decoded_content.decode())
+    data = json.loads(file.decoded_content.decode("utf-8"))
 
     data["menuDelDia"]["primerPlato"] = menu["primerPlato"]
     data["menuDelDia"]["segundoPlato"] = menu["segundoPlato"]
     data["menuDelDia"]["postre"] = menu["postre"]
-    from datetime import datetime
 
-dia = datetime.now().weekday()
+    dia = datetime.now().weekday()
 
-if dia == 5:
-    precio = "CERRADO"
-elif dia == 6:
-    precio = "17 €"
-else:
-    precio = "14 €"
+    if dia == 5:
+        precio = "CERRADO"
+    elif dia == 6:
+        precio = "17 €"
+    else:
+        precio = "14 €"
 
-data["menuDelDia"]["precio"] = precio
+    data["menuDelDia"]["precio"] = precio
 
     repo.update_file(
         FILE_PATH,
-        "Меню обновлено из Telegram",
+        "Menú actualizado desde Telegram",
         json.dumps(data, ensure_ascii=False, indent=2),
         file.sha,
     )
+    def main():
+
+    app = Application.builder().token(TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CallbackQueryHandler(buttons))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_message))
+
+    print("✅ Bot Los Faroles запущен")
+
+    app.run_polling()
+
+
+if __name__ == "__main__":
+    main()
