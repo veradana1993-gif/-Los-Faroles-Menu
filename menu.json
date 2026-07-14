@@ -1,9 +1,20 @@
 {
   "menuDelDia": {
-    "precio": "14 €",
-    "primerPlato": "Gazpacho",
-    "segundoPlato": "Paella",
-    "bebida": "Bebida incluida",
-    "postre": "Postre casero"
+    "primero": [
+      "Gazpacho",
+      "Ensalada mixta",
+      "Sopa casera"
+    ],
+    "segundo": [
+      "Paella",
+      "Pollo al horno",
+      "Costillas en salsa"
+    ],
+    "postre": [
+      "Postre casero",
+      "Flan",
+      "Tarta de queso"
+    ],
+    "bebida": "Bebida incluida"
   }
 }
