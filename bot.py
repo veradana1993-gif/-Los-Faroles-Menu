@@ -38,7 +38,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "Выберите действие:",
         reply_markup=InlineKeyboardMarkup(keyboard),
-    )async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    )
+    
+    async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     query = update.callback_query
     await query.answer()
