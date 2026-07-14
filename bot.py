@@ -8,7 +8,9 @@ from telegram.ext import (
     Application,
     CommandHandler,
     CallbackQueryHandler,
+    MessageHandler,
     ContextTypes,
+    filters,
 )
 
 from github import Github
@@ -22,11 +24,11 @@ REPO_NAME = "veradana1993-gif/-Los-Faroles-Menu"
 FILE_PATH = "menu.json"
 
 menu = {
-    "primerPlato": "",
-    "segundoPlato": "",
-    "postre": "",
+    menu["primerPlato"] = []
+menu["segundoPlato"] = []
+menu["postre"] = []
 
-}
+estado = {}
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     keyboard = [
