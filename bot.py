@@ -221,25 +221,24 @@ async def show_menu(query):
 # Обработка кнопок
 # --------------------------------------------------
 
+# --------------------------------------------------
+# Обработка кнопок
+# --------------------------------------------------
+
 async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     query = update.callback_query
-
     await query.answer()
 
     if query.data == "show_menu":
+        await show_menu(query)
+        return
 
-    await show_menu(query)
-
-    return
-
-if query.data == "edit_menu":
-
-    await query.edit_message_text(
-        "🚧 Edición del menú en desarrollo."
-    )
-
-    return
+    if query.data == "edit_menu":
+        await query.edit_message_text(
+            "🚧 Edición del menú en desarrollo."
+        )
+        return
      # ==============================
 
 
