@@ -307,7 +307,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # CONFIGURACIÓN PRINCIPAL
 # ==============================
 
-def main():
+async def main():
 
     app = Application.builder().token(
     "8956988765:AAFtDe1IBjmTpfApW1JaljgSa2AdjmRLDVc"
@@ -346,7 +346,13 @@ def main():
     )
 
 
-    app.run_polling()
+    await app.initialize()
+await app.start()
+await app.updater.start_polling()
+
+print("🤖 Bot Los Faroles iniciado...")
+
+await asyncio.Event().wait()
 
 
 
