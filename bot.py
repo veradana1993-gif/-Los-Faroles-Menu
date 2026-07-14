@@ -284,6 +284,16 @@ async def main():
 # EJECUTAR
 # ==============================
 
+import threading
+
 if __name__ == "__main__":
-    import asyncio
+
+    threading.Thread(
+        target=lambda: app_web.run(
+            host="0.0.0.0",
+            port=int(os.environ.get("PORT", 10000))
+        ),
+        daemon=True,
+    ).start()
+
     asyncio.run(main())
