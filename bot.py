@@ -267,23 +267,42 @@ async def main():
 )
 
 
-    await app.initialize()
-    await app.start()
-    await app.updater.start_polling()
+    WEBHOOK_PATH = "/webhook"
 
-    print(
-        "🤖 Bot Los Faroles iniciado..."
+
+@app_web.route(WEBHOOK_PATH, methods=["POST"])
+def webhook():
+    return "OK", 200
+
+
+async def main():
+
+    app = Application.builder().token(BOT_TOKEN).build()
+
+    app.add_handler(
+        CommandHandler(
+            "start",
+            start
+        )
     )
+
+    app.add_handler(
+        CallbackQueryHandler(buttons)
+    )
+
+    await app.initialize()
+
+    render_url = os.getenv("RENDER_EXTERNAL_URL")
+    webhook_url = f"{render_url}{WEBHOOK_PATH}"
+
+    await app.bot.set_webhook(url=webhook_url)
+
+    print(f"Webhook configurado: {webhook_url}")
+
+    await app.start()
 
     await asyncio.Event().wait()
 
-
-
-# ==============================
-# EJECUTAR
-# ==============================
-
-import threading
 
 if __name__ == "__main__":
 
